@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const PASSWORD = "archie2025";
+const PASSWORD = "archie2026";
 const COOKIE = "proto-auth";
 
 export async function POST(req: NextRequest) {
