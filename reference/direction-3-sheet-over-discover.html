@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Archie AI Search — Direction 3 prototype</title>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+  /* Robin Product (semantic) tokens — Sidekick Health Mobile brand
+     Source: /tokens.json @ sidekick-mobile. Never reference primitives directly. */
+  [data-theme="sidekick-mobile"]{
+    /* Background */
+    --background-surface-primary:#ffffff;
+    --background-surface-secondary:#ffffff;
+    --background-surface-tertiary:#f2f6ff;
+    --background-interactive-primary-default:#0050ff;
+    --background-interactive-primary-hover:#3373ff;
+    --background-interactive-primary-focus:#002066;
+    --background-interactive-primary-press:#003099;
+    --background-interactive-primary-disabled:#ccdcff;
+    --background-interactive-secondary-default:#ffffff00;
+    --background-interactive-secondary-hover:#ccdcff;
+    --background-interactive-secondary-focus:#002066;
+    --background-interactive-secondary-press:#3373ff;
+    --background-interactive-secondary-disabled:#ccdcff;
+    --background-interactive-tertiary-default:#e5edff;
+    --background-interactive-tertiary-hover:#ccdcff;
+    --background-interactive-tertiary-focus:#002066;
+    --background-interactive-tertiary-press:#3373ff;
+    --background-interactive-tertiary-disabled:#3373ff;
+    --background-interactive-destructive-default:#cc0030;
+    --background-interactive-destructive-hover:#cc0030;
+    --background-interactive-destructive-focus:#990020;
+    --background-interactive-destructive-press:#990020;
+    --background-interactive-destructive-disabled:#ffccd9;
+    --background-controls-primary:#0050ff;
+    --background-controls-secondary:#e5edff;
+    --background-controls-tertiary:#ffffff;
+    --background-input-field-unselected:#ffffff;
+    --background-input-field-selected:#ffffff;
+    --background-input-field-pressed:#ccdcff;
+    --background-input-field-disabled:#f2f4f6;
+    --background-brand-primary:#f2f6ff;
+    --background-brand-secondary:#e5fff7;
+    --background-brand-tertiary:#ffccf9;
+    --background-status-success-primary:#2ea68a;
+    --background-status-success-secondary:#dff3ee;
+    --background-status-warning-primary:#ffcf20;
+    --background-status-warning-secondary:#fff5d2;
+    --background-status-danger-primary:#cc0030;
+    --background-status-danger-secondary:#ffe6ec;
+    --background-status-informative-primary:#6696ff;
+    --background-status-informative-secondary:#f2f6ff;
+    --background-navigation:#001033;
+    /* Foreground */
+    --foreground-surface-primary-subtle:#4c6284;
+    --foreground-surface-primary-strong:#001033;
+    --foreground-surface-secondary-subtle:#7f8fa7;
+    --foreground-surface-secondary-strong:#001033;
+    --foreground-surface-tertiary-subtle:#7f8fa7;
+    --foreground-surface-tertiary-strong:#001033;
+    --foreground-brand-primary-strong:#001033;
+    --foreground-brand-primary-subtle:#f9fbff;
+    --foreground-brand-secondary-strong:#009969;
+    --foreground-brand-secondary-subtle:#ccffef;
+    --foreground-brand-tertiary-strong:#990086;
+    --foreground-brand-tertiary-subtle:#ffccf9;
+    --foreground-status-success-primary-strong:#ffffff;
+    --foreground-status-warning-primary-strong:#332906;
+    --foreground-status-danger-primary-strong:#33000c;
+    --foreground-status-informative-primary-strong:#002050;
+    --foreground-status-success-secondary-subtle:#036a4e;
+    --foreground-status-warning-secondary-strong:#66530d;
+    --foreground-status-warning-secondary-subtle:#332906;
+    --foreground-status-danger-secondary-strong:#660018;
+    --foreground-status-danger-secondary-subtle:#33000c;
+    --foreground-status-informative-secondary-strong:#4c6284;
+    --foreground-status-informative-secondary-subtle:#0050ff;
+    --foreground-interactive-primary-default:#ffffff;
+    --foreground-interactive-secondary-default:#0050ff;
+    --foreground-interactive-tertiary-default:#002050;
+    --foreground-interactive-destructive-default:#cc0030;
+    --foreground-link-default:#0040cc;
+    --foreground-navigation-selected:#ffffff;
+    --foreground-navigation-default:#b3bccb;
+    --foreground-input-field-placeholder:#4c6284;
+    --foreground-input-field-input:#002050;
+    --foreground-controls-primary:#ffffff;
+    --foreground-controls-secondary:#334d73;
+    --foreground-controls-tertiary:#4c6284;
+    /* Border */
+    --border-surface-primary:#d0d0d0;
+    --border-surface-secondary:#d0d0d0;
+    --border-surface-tertiary:#ccdcff;
+    --border-brand-primary:#f2f6ff;
+    --border-brand-secondary:#ccffef;
+    --border-brand-tertiary:#ffccf9;
+    --border-interactive-primary-default:#0050ff;
+    --border-interactive-secondary-default:#0050ff;
+    --border-interactive-tertiary-default:#ccdcff;
+    --border-interactive-destructive-default:#cc0030;
+    --border-controls-primary:#0040cc;
+    --border-controls-secondary:#0050ff;
+    --border-controls-tertiary:#ccdcff;
+    --border-input-field-unselected:#b3bccb;
+    --border-input-field-selected:#0050ff;
+    --border-input-field-pressed:#ccdcff;
+    --border-input-field-disabled:#f2f4f6;
+    --border-status-success-primary:#006646;
+    --border-status-success-secondary:#003323;
+    --border-status-warning-primary:#66530d;
+    --border-status-warning-secondary:#332906;
+    --border-status-danger-primary:#660018;
+    --border-status-danger-secondary:#33000c;
+    --border-status-informative-primary:#334d73;
+    --border-status-informative-secondary:#002050;
+    /* Others */
+    --others-shadow:#001033;
+    --others-overlay:#00103380;
+    /* Typography family */
+    --typography-family-display:'Proxima Nova';
+    --typography-family-headline:'Proxima Nova';
+    --typography-family-title:'Proxima Nova';
+    --typography-family-body:'Proxima Nova';
+    --typography-family-label:'Proxima Nova';
+    --typography-family-link:'Proxima Nova';
+    /* Corner radius */
+    --corner-radius-xs:4px;
+    --corner-radius-s:8px;
+    --corner-radius-m:12px;
+    --corner-radius-l:24px;
+    --corner-radius-xl:40px;
+    --corner-radius-button:12px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;}
+  body{
+    font-family:var(--typography-family-body),-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:var(--background-surface-tertiary); color:var(--foreground-surface-primary-strong);
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    padding:14px 16px; height:100vh; overflow:hidden;
+  }
+  .caption{font-size:13px;color:var(--foreground-surface-secondary-subtle);text-align:center;max-width:390px;line-height:18px;}
+  .caption b{color:var(--foreground-surface-primary-subtle);font-weight:600;}
+  /* device */
+  .device{
+    position:relative; width:390px; height:min(844px, calc(100vh - 84px)); background:var(--background-surface-primary);
+    border-radius:44px; overflow:hidden; border:1px solid var(--border-surface-primary);
+    box-shadow:0 24px 60px color-mix(in srgb, var(--others-shadow) 16%, transparent); flex:0 0 auto;
+  }
+  .screen{position:absolute; inset:0; display:flex; flex-direction:column;}
+  .scroll{flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch;}
+  /* status bar */
+  .statusbar{display:flex;align-items:center;gap:0;padding:18px 26px 6px;justify-content:space-between;flex:0 0 auto;color:var(--foreground-surface-primary-strong);}
+  .statusbar .t{font-size:16px;font-weight:600;font-family:-apple-system,system-ui,sans-serif;}
+  .statusbar .i{display:flex;gap:7px;align-items:center;}
+  /* discover */
+  .dh{font-size:28px;font-weight:700;letter-spacing:-.01em;padding:6px 20px 0;}
+  .pad{padding:0 20px;}
+  .searchbar{display:flex;align-items:center;gap:10px;height:48px;background:var(--background-surface-primary);border:1.5px solid var(--border-input-field-unselected);border-radius:999px;padding:0 16px;margin:14px 20px 0;cursor:pointer;color:var(--foreground-surface-primary-subtle);}
+  .searchbar .ph{color:var(--foreground-input-field-placeholder);font-size:16px;}
+  .sec-h{font-size:18px;font-weight:700;padding:22px 20px 0;}
+  .sug{display:flex;gap:12px;padding:12px 20px 0;overflow-x:auto;}
+  .sug .c{flex:0 0 auto;width:150px;}
+  .sug .thumb{height:96px;border-radius:14px;}
+  .sug .ti{font-size:14px;font-weight:600;margin-top:8px;}
+  .sug .me{font-size:12px;color:var(--foreground-surface-secondary-subtle);margin-top:2px;}
+  .grid{display:flex;flex-wrap:wrap;gap:12px;padding:12px 20px 28px;}
+  .tile{display:flex;align-items:center;gap:10px;width:calc(50% - 6px);background:var(--background-surface-tertiary);border-radius:14px;padding:14px;}
+  .tile .d{width:34px;height:34px;border-radius:999px;flex:0 0 auto;}
+  .tile .l{font-size:14px;font-weight:600;}
+  /* scrim + sheet */
+  .scrim{position:absolute;inset:0;background:var(--others-overlay);opacity:0;pointer-events:none;transition:opacity .3s ease;z-index:5;}
+  .scrim.on{opacity:1;pointer-events:auto;}
+  .sheet{
+    position:absolute;left:0;right:0;bottom:0;z-index:6;background:var(--background-surface-primary);
+    border-radius:28px 28px 0 0; box-shadow:0 -8px 30px color-mix(in srgb, var(--others-shadow) 12%, transparent);
+    transform:translateY(102%); transition:transform .34s cubic-bezier(.32,.72,0,1);
+    display:flex;flex-direction:column; max-height:92%;
+  }
+  .sheet.on{transform:translateY(0);}
+  .grab{width:40px;height:5px;border-radius:999px;background:var(--border-surface-primary);margin:12px auto 0;flex:0 0 auto;}
+  .sheet .body{overflow-y:auto;padding:14px 20px 26px;display:flex;flex-direction:column;gap:16px;}
+  /* generic bits */
+  .row{display:flex;align-items:center;}
+  .qrow{justify-content:space-between;}
+  .qrow .q{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--foreground-surface-secondary-subtle);}
+  .qrow .q span{color:var(--foreground-surface-primary-strong);}
+  .iconbtn{width:28px;height:28px;border-radius:999px;background:var(--background-input-field-disabled);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto;color:var(--foreground-surface-primary-subtle);}
+  .archie{display:flex;align-items:center;gap:7px;}
+  .dot{width:9px;height:9px;border-radius:999px;background:var(--foreground-brand-secondary-strong);flex:0 0 auto;}
+  .archie .n{font-size:14px;font-weight:600;}
+  .chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:600;}
+  .chip.green{background:var(--background-brand-secondary);color:var(--foreground-status-success-secondary-subtle);}
+  .answer{font-size:16px;line-height:24px;color:var(--foreground-surface-primary-strong);}
+  .answer.lg{font-size:16px;}
+  /* citation / top pick */
+  .pick{display:flex;align-items:center;gap:12px;background:var(--background-surface-tertiary);border-radius:16px;padding:14px;cursor:pointer;border:1px solid var(--border-surface-tertiary);color:var(--background-interactive-primary-default);}
+  .pick .ico{width:42px;height:42px;border-radius:11px;background:var(--background-surface-primary);display:flex;align-items:center;justify-content:center;flex:0 0 auto;border:1px solid var(--border-surface-tertiary);}
+  .pick .k{font-size:12px;color:var(--foreground-link-default);font-weight:600;}
+  .pick .ti{font-size:16px;font-weight:700;color:var(--foreground-surface-primary-strong);line-height:21px;margin-top:1px;}
+  .pick .me{font-size:13px;color:var(--foreground-link-default);margin-top:2px;}
+  /* results */
+  .more-h{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border-surface-primary);padding-top:16px;cursor:pointer;color:var(--foreground-surface-secondary-subtle);}
+  .more-h .l{font-size:16px;font-weight:700;color:var(--foreground-surface-primary-strong);}
+  .more-h .r{font-size:13px;color:var(--foreground-surface-secondary-subtle);font-weight:600;display:flex;align-items:center;gap:4px;}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;}
+  .f{font-size:13px;font-weight:600;border-radius:999px;padding:7px 14px;background:var(--background-surface-tertiary);color:var(--foreground-controls-secondary);cursor:pointer;}
+  .f.on{background:var(--background-navigation);color:var(--foreground-interactive-primary-default);}
+  .res{display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer;border-bottom:1px solid var(--border-surface-primary);color:var(--border-input-field-unselected);}
+  .res:last-child{border-bottom:none;}
+  .res .th{width:48px;height:48px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .res .ti{font-size:15px;font-weight:600;line-height:20px;color:var(--foreground-surface-primary-strong);}
+  .res .me{font-size:13px;color:var(--foreground-surface-secondary-subtle);margin-top:1px;display:flex;align-items:center;gap:6px;}
+  .res .lockpill{display:inline-flex;align-items:center;gap:4px;color:var(--foreground-status-warning-secondary-strong);font-weight:600;}
+  .hidden{display:none;}
+  /* gentle / soft link */
+  .soft{display:flex;align-items:center;gap:6px;color:var(--foreground-link-default);font-size:14px;font-weight:600;cursor:pointer;}
+  .sec-min{font-size:15px;font-weight:700;}
+  /* multi */
+  .progchip{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:600;}
+  .nudge{display:flex;align-items:center;gap:10px;background:var(--background-status-warning-secondary);border-radius:12px;padding:12px 14px;color:var(--foreground-status-warning-secondary-strong);}
+  .nudge .l{font-size:13px;font-weight:600;color:var(--foreground-status-warning-secondary-strong);flex:1;line-height:18px;}
+  .nudge .a{font-size:13px;font-weight:700;color:var(--foreground-link-default);cursor:pointer;}
+  .glabel{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--foreground-surface-primary-subtle);}
+  .gcard{display:flex;align-items:center;gap:12px;background:var(--background-surface-tertiary);border-radius:12px;padding:10px 12px;cursor:pointer;color:var(--border-input-field-unselected);}
+  .gcard .ti{color:var(--foreground-surface-primary-strong);}
+  .gcard .me{color:var(--foreground-surface-secondary-subtle);}
+  /* thinking */
+  .thinking{display:flex;flex-direction:column;gap:14px;}
+  .dots{display:flex;gap:5px;align-items:center;}
+  .dots i{width:8px;height:8px;border-radius:999px;background:var(--foreground-brand-secondary-strong);display:block;animation:pulse 1s infinite;}
+  .dots i:nth-child(2){animation-delay:.15s;}
+  .dots i:nth-child(3){animation-delay:.3s;}
+  @keyframes pulse{0%,100%{opacity:.35;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}
+  .skel{height:12px;border-radius:6px;background:var(--background-interactive-tertiary-default);}
+  .skel.sh{animation:sh 1.3s infinite linear;background:linear-gradient(90deg,var(--background-interactive-tertiary-default),var(--background-surface-tertiary),var(--background-interactive-tertiary-default));background-size:200% 100%;}
+  @keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  /* search active */
+  .field{display:flex;align-items:center;gap:10px;height:48px;background:var(--background-surface-primary);border:1.5px solid var(--border-input-field-selected);border-radius:999px;padding:0 16px;color:var(--foreground-surface-primary-subtle);}
+  .field input{border:none;outline:none;font-family:inherit;font-size:16px;color:var(--foreground-input-field-input);flex:1;background:transparent;}
+  .field input::placeholder{color:var(--foreground-input-field-placeholder);}
+  .pillgroup{display:flex;flex-direction:column;gap:10px;}
+  .pillgroup .h{font-size:15px;font-weight:600;}
+  .pills{display:flex;flex-wrap:wrap;gap:8px;}
+  .pill{font-size:14px;font-weight:600;color:var(--foreground-controls-secondary);background:var(--background-surface-tertiary);border-radius:999px;padding:9px 14px;cursor:pointer;}
+  /* overlay screens (reader / forward) */
+  .overlay{position:absolute;inset:0;z-index:8;background:var(--background-surface-primary);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);}
+  .overlay.on{transform:translateX(0);}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:4px 16px 10px;flex:0 0 auto;color:var(--foreground-surface-primary-strong);}
+  .back{display:flex;align-items:center;gap:8px;cursor:pointer;}
+  .back .n{font-size:15px;font-weight:600;}
+  .hero{height:120px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .hero .circ{width:78px;height:78px;border-radius:999px;display:flex;align-items:center;justify-content:center;}
+  .rbody{padding:18px 20px;display:flex;flex-direction:column;gap:14px;}
+  .crumb{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--foreground-surface-secondary-subtle);}
+  .rtitle{font-size:22px;font-weight:700;line-height:28px;}
+  .rmeta{font-size:13px;color:var(--foreground-surface-secondary-subtle);}
+  .mark{align-self:flex-start;}
+  .para{font-size:16px;line-height:24px;}
+  .hl{background:var(--background-status-warning-secondary);border-left:3px solid var(--background-status-warning-primary);border-radius:0 8px 8px 0;padding:10px 12px;}
+  .hl .para{color:var(--foreground-status-warning-primary-strong);}
+  .lockprev{display:flex;flex-direction:column;gap:14px;background:var(--background-surface-tertiary);border-radius:20px;padding:18px;}
+  .lockprev .img{height:120px;border-radius:14px;background:var(--background-interactive-tertiary-default);display:flex;align-items:center;justify-content:center;}
+  .lockprev .img .pl{width:52px;height:52px;border-radius:999px;background:var(--background-surface-primary);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px color-mix(in srgb, var(--others-shadow) 8%, transparent);color:var(--foreground-surface-primary-subtle);}
+  .lockprev .ti{font-size:20px;font-weight:700;line-height:26px;}
+  .lockprev .de{font-size:15px;line-height:22px;color:var(--foreground-surface-primary-subtle);}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;padding:15px;font-size:16px;font-weight:600;cursor:pointer;}
+  .btn.primary{background:var(--background-interactive-primary-default);color:var(--foreground-interactive-primary-default);}
+  .btn.ghost{background:var(--background-surface-primary);border:1.5px solid var(--border-interactive-secondary-default);color:var(--foreground-interactive-secondary-default);}
+  .step{display:flex;align-items:center;gap:12px;background:var(--background-surface-tertiary);border-radius:14px;padding:14px 16px;cursor:pointer;color:var(--border-input-field-unselected);}
+  .step .l{font-size:16px;font-weight:600;flex:1;color:var(--foreground-surface-primary-strong);}
+  .restart{font-size:13px;font-weight:600;color:var(--foreground-interactive-secondary-default);background:var(--background-surface-primary);border:1px solid var(--border-surface-primary);border-radius:999px;padding:9px 16px;cursor:pointer;}
+  .toast{position:absolute;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);z-index:12;background:var(--background-navigation);color:var(--foreground-interactive-primary-default);font-size:13px;font-weight:600;padding:10px 16px;border-radius:999px;opacity:0;transition:all .25s ease;pointer-events:none;white-space:nowrap;}
+  .toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body data-theme="sidekick-mobile">
+  <div class="caption">Archie AI Search · <b>Direction 3 — sheet over Discover</b>. Tap the search bar, pick a prompt, then tap Archie's top pick, any result, or a "coming up" source.</div>
+  <div class="device" id="device"></div>
+  <button class="restart" id="restart">↺ Restart from Discover</button>
+
+<script>
+const $ = (h)=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstChild;};
+const device = document.getElementById('device');
+
+/* ---------- icons ----------
+   All icons take an optional colour as a CSS string. Default is 'currentColor',
+   so the icon inherits its parent's `color` (which itself comes from a Robin
+   token). Callers pass a `var(--...)` Robin token only when they need to
+   override the inherited colour. SVG attributes can't accept var() directly,
+   so we route the colour via the SVG element's `style="color:..."` and use
+   `currentColor` on the paths. */
+const IC = {
+  search:(c='currentColor')=>`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="color:${c}"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+  close:(c='currentColor')=>`<svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="color:${c}"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+  chev:(c='currentColor')=>`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="color:${c}"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  back:(c='currentColor')=>`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="color:${c}"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  doc:(c='currentColor')=>`<svg width="19" height="19" viewBox="0 0 24 24" fill="none" style="color:${c}"><path d="M6 3h8l4 4v14H6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12h6M9 16h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+  pulse:(c='currentColor')=>`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="color:${c}"><path d="M4 12h3l2-5 3 11 2.5-7 1.5 3h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  heart:(c='currentColor')=>`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="color:${c}"><path d="M12 20s-7-4.5-7-9.5A3.5 3.5 0 0 1 12 7a3.5 3.5 0 0 1 7 3.5c0 5-7 9.5-7 9.5z" fill="currentColor"/></svg>`,
+  audio:(c='currentColor')=>`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="color:${c}"><path d="M5 12c0-1 0-1 0-1M8 12c0-3 0-3 0-4M11 12c0-5 0-5 0-7M14 12c0-3 0-3 0-5M17 12c0-2 0-2 0-3M20 12c0-1 0-1 0-1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M5 12c0 1 0 1 0 1M8 12c0 3 0 3 0 4M11 12c0 5 0 5 0 7M14 12c0 3 0 3 0 5M17 12c0 2 0 2 0 3M20 12c0 1 0 1 0 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+  clock:(c='currentColor')=>`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="color:${c}"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+  lock:(c='currentColor')=>`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="color:${c}"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2"/></svg>`,
+  layers:(c='currentColor')=>`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="color:${c}"><path d="M12 3l9 5-9 5-9-5 9-5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M3 13l9 5 9-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`,
+  list:(c='currentColor')=>`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="color:${c}"><path d="M4 5h16M4 12h16M4 19h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+  chat:(c='currentColor')=>`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="color:${c}"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4L3 21l1.1-9A8.4 8.4 0 1 1 21 11.5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`,
+  check:(c='currentColor')=>`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="color:${c}"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  alert:(c='currentColor')=>`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="color:${c}"><path d="M12 3l9 16H3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>`,
+  bell:(c='currentColor')=>`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="color:${c}"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10 20a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+  bookmark:(c='currentColor')=>`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="color:${c}"><path d="M7 4h10v16l-5-3.5L7 20z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`,
+};
+const statusbar = `<div class="statusbar"><div class="t">9:41</div><div class="i">
+  <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4" width="3" height="8" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+  <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M8.5 2.2c2 0 3.8.8 5.1 2M8.5 6c1 0 2 .4 2.7 1.1M2.4 4.2a9 9 0 0 1 12.2 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8.5" cy="10" r="1.2" fill="currentColor"/></svg>
+  <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="1" y="1" width="21" height="10" rx="3" stroke="currentColor" stroke-width="1.4"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="currentColor"/><rect x="23.5" y="4" width="1.5" height="4" rx=".75" fill="currentColor"/></svg>
+</div></div>`;
+
+/* ---------- data ----------
+   thumb/hero/icon colour values are Robin Product tokens. Decorative tile
+   thumbnails stand in for illustration assets; they're mapped to the closest
+   brand/status token rather than raw hex per the design.md rule. */
+const M = {
+  'gentle-mobility':{title:'Gentle Mobility for Your Back',type:'Exercise',dur:'8 mins',quest:'Physical Activity',module:'Lower back care',access:'open',
+    thumb:'var(--background-brand-secondary)', icon:IC.pulse('var(--background-status-success-primary)'),
+    hero:'var(--background-status-warning-secondary)', heroIcon:IC.pulse('var(--foreground-status-warning-secondary-strong)'),
+    intro:"When your back is sore it's tempting to rest completely — but staying still often makes stiffness worse.",
+    hl:"Gentle movement usually helps more than rest. Slow cat-cow stretches and short walks through the day keep things loose. Avoid sitting in one position for too long.",
+    outro:"Build up slowly and stop if anything sharpens. If pain spreads or lasts beyond a couple of weeks, check in with your care team."},
+  'why-movement':{title:'Why Movement Beats Rest',type:'Article',dur:'4 mins',quest:'Physical Activity',module:'Lower back care',access:'open',
+    thumb:'var(--background-status-warning-secondary)', icon:IC.doc('var(--foreground-status-warning-secondary-strong)'),
+    hero:'var(--background-status-warning-secondary)', heroIcon:IC.doc('var(--foreground-status-warning-secondary-strong)'),
+    intro:"For years the advice for a sore back was bed rest. We now know that's usually the opposite of what helps.",
+    hl:"Movement brings blood flow to the area, keeps muscles from tightening, and helps your body recover faster than rest alone.",
+    outro:"Start with what feels manageable and build from there. Pain that's sharp or spreading is always worth raising with your care team."},
+  'lower-back-reset':{title:'Lower Back Reset',type:'Quest',dur:'5 chapters',quest:'Physical Activity',access:'open',isQuest:true,opensMission:'gentle-mobility',
+    thumb:'var(--background-brand-tertiary)', icon:IC.layers('var(--foreground-brand-tertiary-strong)')},
+  'breathing-reset':{title:'A 3-minute breathing reset',type:'Audio',dur:'3 mins',quest:'Mental Well-being',module:'Managing stress',access:'open',
+    thumb:'var(--background-brand-secondary)', icon:IC.audio('var(--foreground-brand-secondary-strong)'),
+    hero:'var(--background-brand-secondary)', heroIcon:IC.audio('var(--foreground-brand-secondary-strong)'),
+    intro:"This is a short guided breath you can do anywhere — sitting, lying down, or on a walk.",
+    hl:"Breathe in for four counts, hold for four, out for six. The longer out-breath is what signals your body it's safe to settle.",
+    outro:"Even one round helps. Come back to it whenever things feel like too much."},
+  'balance-is-best':{title:'Balance is best',type:'Mini lesson',dur:'unlocks Day 4',quest:'Nutrition',chapter:'Chapter 1',access:'coming-up',unlock:'Unlocks on Day 4 of your Nutrition quest',
+    thumb:'var(--background-status-warning-secondary)', icon:IC.clock('var(--foreground-status-warning-secondary-strong)'),
+    desc:"A short lesson on building balanced plates — the source Archie drew from. It's part of your Nutrition quest and hasn't opened yet."},
+  'dizziness-heart':{title:'Dizziness, fluid & your heart',type:'Article',dur:'4 mins',quest:'Heart Failure',module:'Heart Failure',access:'open',
+    thumb:'var(--background-status-danger-secondary)', icon:IC.heart('var(--background-status-danger-primary)'),
+    hero:'var(--background-status-danger-secondary)', heroIcon:IC.heart('var(--background-status-danger-primary)'),
+    intro:"Dizziness and tiredness are common with heart conditions, and they're worth paying attention to.",
+    hl:"They can be a sign your body is holding extra fluid or your blood pressure has shifted. Keeping a simple daily note of how you feel helps your care team spot patterns.",
+    outro:"If it comes on suddenly, with breathlessness or swelling, contact your care team the same day."},
+  'low-blood-sugar':{title:'Spotting low blood sugar',type:'Mini lesson',dur:'3 mins',quest:'Type 2 Diabetes',module:'Type 2 Diabetes',access:'open',
+    thumb:'var(--background-brand-secondary)', icon:IC.check('var(--foreground-brand-secondary-strong)'),
+    hero:'var(--background-brand-secondary)', heroIcon:IC.check('var(--foreground-brand-secondary-strong)'),
+    intro:"Feeling shaky, tired or dizzy can sometimes mean your blood sugar has dropped too low.",
+    hl:"Early signs include sudden tiredness, dizziness, sweating or trouble concentrating. A quick source of sugar usually settles it within minutes.",
+    outro:"If it keeps happening, note when it occurs and share it with your care team — your plan may need a small adjustment."},
+};
+
+const A = {
+  physical:{ query:'What can I do for lower back pain?', short:'Lower back pain', type:'standard',
+    chip:{label:'From your Physical Activity program', icon:IC.pulse()},
+    body:"Gentle movement usually helps more than rest. Try slow cat-cow stretches and short walks through the day, and avoid sitting in one position too long. If the pain turns sharp or lasts beyond a couple of weeks, check in with your care team.",
+    topPick:'gentle-mobility', results:['why-movement','lower-back-reset','balance-is-best'] },
+  emotional:{ query:'Feeling overwhelmed lately', short:'Feeling overwhelmed lately', type:'gentle',
+    chip:{label:'Based on how you’re feeling', icon:IC.heart()},
+    body:"That sounds like a lot to be carrying right now. When everything piles up at once, a small reset can help your body settle before you take on the rest. Be gentle with yourself today — you don't have to fix it all in one go.",
+    topPick:'breathing-reset', softLink:'Explore more in Mental Well-being' },
+  multi:{ query:'I’ve been feeling dizzy and tired', short:'Dizzy and tired', type:'multi',
+    programs:[
+      {label:'Heart Failure', dot:'var(--background-status-danger-primary)', bg:'var(--background-status-danger-secondary)', fg:'var(--foreground-status-danger-secondary-strong)'},
+      {label:'Type 2 Diabetes', dot:'var(--foreground-brand-secondary-strong)', bg:'var(--background-brand-secondary)', fg:'var(--foreground-status-success-secondary-subtle)'}
+    ],
+    body:"Dizziness and tiredness can come from more than one thing, and both of your programs touch on them. Here's what each covers. Because you're managing your heart, it's worth keeping an eye on and mentioning if it keeps happening.",
+    nudge:"Keeps happening? It's worth flagging to your care team.",
+    groups:[
+      {label:'From your Heart Failure program', dot:'var(--background-status-danger-primary)', mission:'dizziness-heart'},
+      {label:'From your Type 2 Diabetes program', dot:'var(--foreground-brand-secondary-strong)', mission:'low-blood-sugar'}
+    ] },
+  empty:{ query:'Can I take ibuprofen with my meds?', short:'Ibuprofen with my meds?', type:'empty',
+    body:"I couldn't find an answer to this in your program. I only share guidance from your Sidekick content, and I'm not able to help with medication. Your care team is the right place for that one." },
+};
+
+/* ---------- state ---------- */
+let prevAnswer = 'physical';
+
+/* ---------- base render ---------- */
+function renderBase(){
+  device.innerHTML = `
+    ${discoverHTML()}
+    <div class="scrim" id="scrim"></div>
+    <div class="sheet" id="sheet"><div class="grab"></div><div class="body" id="sheetBody"></div></div>
+    <div class="overlay" id="reader"></div>
+    <div class="overlay" id="forward"></div>
+    <div class="toast" id="toast"></div>`;
+  document.getElementById('scrim').onclick = closeSheet;
+  device.querySelector('#discoverSearch').onclick = openSearch;
+}
+
+function discoverHTML(){
+  const tile=(d,l)=>`<div class="tile"><div class="d" style="background:${d}"></div><div class="l">${l}</div></div>`;
+  const card=(t,m,c)=>`<div class="c"><div class="thumb" style="background:${c}"></div><div class="ti">${t}</div><div class="me">${m}</div></div>`;
+  return `<div class="screen" id="discover">
+    ${statusbar}
+    <div class="scroll">
+      <div class="dh">Discover</div>
+      <div class="searchbar" id="discoverSearch">${IC.search()}<div class="ph">Ask Archie AI or Search</div></div>
+      <div class="sec-h">Suggested for you</div>
+      <div class="sug">${card('Sit-to-stand','Exercise · 5 mins','var(--background-brand-secondary)')}${card('Poor sleep','Article · 6 mins','var(--background-interactive-tertiary-default)')}${card('Eat well','Recipe · 4 mins','var(--background-status-warning-secondary)')}</div>
+      <div class="sec-h">Library &amp; Tools</div>
+      <div class="grid">${tile('var(--foreground-brand-secondary-subtle)','Physical Activity')}${tile('var(--background-brand-tertiary)','Nutrition')}${tile('var(--background-status-warning-secondary)','Mental Health')}${tile('var(--background-interactive-primary-disabled)','Sleep')}</div>
+    </div>
+  </div>`;
+}
+
+/* ---------- sheet control ---------- */
+function showSheet(html){
+  document.getElementById('sheetBody').innerHTML = html;
+  document.getElementById('scrim').classList.add('on');
+  document.getElementById('sheet').classList.add('on');
+}
+function closeSheet(){
+  document.getElementById('scrim').classList.remove('on');
+  document.getElementById('sheet').classList.remove('on');
+}
+
+/* ---------- search active ---------- */
+function openSearch(){
+  const grp=(h,items)=>`<div class="pillgroup"><div class="h">${h}</div><div class="pills">${items.map(i=>`<div class="pill" data-q="${i[1]}">${i[0]}</div>`).join('')}</div></div>`;
+  showSheet(`
+    <div class="field">${IC.search()}<input id="qinput" placeholder="Ask Archie" autocomplete="off"/><div class="iconbtn" id="qclear">${IC.close()}</div></div>
+    <div class="archie"><div class="dot"></div><div class="n">Archie</div><div style="font-size:14px;color:var(--muted)">answers from your program</div></div>
+    ${grp('Tell Archie how you’re feeling',[['Feeling overwhelmed lately','emotional']])}
+    ${grp('Or ask about something physical',[['What can I do for lower back pain?','physical'],['I’ve been feeling dizzy and tired','multi']])}
+    ${grp('Boundary example',[['Can I take ibuprofen with my meds?','empty']])}
+  `);
+  const input=document.getElementById('qinput');
+  setTimeout(()=>input&&input.focus(),120);
+  document.getElementById('qclear').onclick=()=>{input.value='';input.focus();};
+  device.querySelectorAll('.pill').forEach(p=>p.onclick=()=>submit(p.dataset.q));
+  input.addEventListener('keydown',e=>{ if(e.key==='Enter'){submit(routeQuery(input.value));} });
+}
+function routeQuery(text){
+  const t=(text||'').toLowerCase();
+  if(/overwhelm|stress|anxious|down|motivat|tired this/.test(t)) return 'emotional';
+  if(/dizz|fatigue|tired|swell|both/.test(t)) return 'multi';
+  if(/ibuprofen|med|tablet|drug|dose/.test(t)) return 'empty';
+  if(t.trim()==='') return 'physical';
+  return 'physical';
+}
+
+/* ---------- thinking ---------- */
+function submit(key){
+  prevAnswer=key;
+  const a=A[key];
+  showSheet(`
+    <div class="row qrow"><div class="q">${IC.search()}<span>${a.short}</span></div></div>
+    <div class="thinking">
+      <div class="archie"><div class="dot"></div><div class="n">Archie</div><div class="dots"><i></i><i></i><i></i></div></div>
+      <div style="font-size:16px;font-weight:600;color:var(--subtle)">Looking through your program…</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div class="skel sh" style="width:100%"></div><div class="skel sh" style="width:90%"></div><div class="skel sh" style="width:70%"></div>
+      </div>
+    </div>`);
+  setTimeout(()=>renderAnswer(key),1250);
+}
+
+/* ---------- answer ---------- */
+function resRow(id){
+  const m=M[id];
+  const locked = m.access==='coming-up';
+  const meta = locked
+    ? `<span class="lockpill">${IC.clock()} ${m.dur}</span>`
+    : `${m.type} · ${m.dur}`;
+  return `<div class="res" data-m="${id}"><div class="th" style="background:${m.thumb}">${m.icon}</div>
+    <div style="flex:1"><div class="ti">${m.title}</div><div class="me">${meta}</div></div>${IC.chev()}</div>`;
+}
+function renderAnswer(key){
+  const a=A[key];
+  let html=`<div class="row qrow"><div class="q">${IC.search()}<span>${a.short}</span></div><div class="iconbtn" id="sheetX">${IC.close()}</div></div>`;
+
+  if(a.type==='empty'){
+    html+=`<div class="archie"><div class="dot"></div><div class="n">Archie</div></div>
+      <div class="answer">${a.body}</div>
+      <div class="step" data-go="library">${IC.list()}<div class="l">Browse the library</div>${IC.chev()}</div>
+      <div class="step" data-go="ask">${IC.chat()}<div class="l">Ask Archie something else</div>${IC.chev()}</div>`;
+    showSheet(html); wireSheet(key); return;
+  }
+
+  // header: archie + reasoning
+  html+=`<div class="row" style="justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <div class="archie"><div class="dot"></div><div class="n">Archie</div></div>`;
+  if(a.type==='multi'){
+    html+=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:13px;font-weight:600;color:var(--subtle)">This may relate to 2 of your programs</span>`+
+      a.programs.map(p=>`<span class="progchip" style="background:${p.bg};color:${p.fg}"><span class="dot" style="width:7px;height:7px;background:${p.dot}"></span>${p.label}</span>`).join('')+`</div>`;
+  }else{
+    html+=`<span class="chip green">${a.chip.icon}${a.chip.label}</span>`;
+  }
+  html+=`</div><div class="answer">${a.body}</div>`;
+
+  if(a.type==='multi'){
+    html+=`<div class="nudge">${IC.alert()}<div class="l">${a.nudge}</div><div class="a" data-go="care">Contact</div></div>`;
+    a.groups.forEach(g=>{
+      html+=`<div class="glabel"><span class="dot" style="width:7px;height:7px;background:${g.dot}"></span>${g.label}</div>${grpCard(g.mission)}`;
+    });
+    showSheet(html); wireSheet(key); return;
+  }
+
+  // top pick (citation reframed)
+  html+=pickCard(a.topPick);
+
+  if(a.type==='gentle'){
+    html+=`<div class="soft" data-go="mwb">${a.softLink} ${IC.chev()}</div>`;
+    showSheet(html); wireSheet(key); return;
+  }
+
+  // standard: more results (collapsed -> expand)
+  const rest=a.results;
+  html+=`<div class="more-h" id="moreToggle"><div class="l">More from your program</div><div class="r" id="moreHint">Drag up for ${rest.length} more ${IC.chev()}</div></div>
+    <div id="moreBlock" class="hidden">
+      <div class="filters" style="margin:4px 0 12px"><div class="f on">All</div><div class="f">Exercises</div><div class="f">Articles</div><div class="f">Audio</div></div>
+      ${rest.map(resRow).join('')}
+    </div>`;
+  showSheet(html); wireSheet(key);
+}
+function pickCard(id){
+  const m=M[id];
+  return `<div class="pick" data-m="${id}"><div class="ico">${m.icon}</div>
+    <div style="flex:1"><div class="k">Archie’s top pick</div><div class="ti">${m.title}</div>
+    <div class="me">${m.type} · ${m.dur} · ${m.module||m.quest}</div></div>${IC.chev()}</div>`;
+}
+function grpCard(id){
+  const m=M[id];
+  return `<div class="gcard" data-m="${id}"><div class="th" style="width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:${m.thumb}">${m.icon}</div>
+    <div style="flex:1"><div class="ti" style="font-size:14px;font-weight:600">${m.title}</div><div class="me" style="font-size:12px;color:var(--muted);margin-top:1px">${m.type} · ${m.dur}</div></div>${IC.chev()}</div>`;
+}
+function wireSheet(key){
+  const x=document.getElementById('sheetX'); if(x) x.onclick=closeSheet;
+  const mt=document.getElementById('moreToggle');
+  if(mt) mt.onclick=()=>{
+    const b=document.getElementById('moreBlock'); const h=document.getElementById('moreHint');
+    if(b.classList.contains('hidden')){ b.classList.remove('hidden'); h.innerHTML='Showing all '+A[key].results.length; }
+    else { b.classList.add('hidden'); h.innerHTML='Drag up for '+A[key].results.length+' more '+IC.chev(); }
+  };
+  device.querySelectorAll('[data-m]').forEach(el=>el.onclick=()=>openMission(el.dataset.m));
+  device.querySelectorAll('[data-go]').forEach(el=>el.onclick=()=>toast(goLabel(el.dataset.go)));
+}
+function goLabel(k){return {library:'→ Open Library',ask:'→ New search',care:'→ Contact care team',mwb:'→ Mental Well-being',quest:'→ Quest detail'}[k]||'→';}
+
+/* ---------- mission routing ---------- */
+function openMission(id){
+  const m=M[id];
+  if(m.access==='coming-up'){ openForward(id); return; }
+  if(m.isQuest){ openReader(m.opensMission, m.title); return; }   // quest result → its most relevant mission
+  openReader(id);
+}
+
+/* ---------- reader overlay ---------- */
+function openReader(id, viaQuest){
+  const m=M[id];
+  const crumb = viaQuest ? `${m.quest} · via ${viaQuest}` : `${m.quest}${m.module?' · '+m.module:''}`;
+  const r=document.getElementById('reader');
+  r.innerHTML=`${statusbar}
+    <div class="topbar"><div class="back" id="readerBack">${IC.back()}<div class="dot"></div><div class="n">Back to Archie</div></div>${IC.bookmark()}</div>
+    <div class="scroll">
+      <div class="hero" style="background:${m.hero||'var(--background-status-warning-secondary)'}"><div class="circ" style="background:color-mix(in srgb, var(--background-surface-primary) 55%, transparent)">${m.heroIcon||m.icon}</div></div>
+      <div class="rbody">
+        <div class="crumb">${crumb}</div>
+        <div class="rtitle">${m.title}</div>
+        <div class="rmeta">${m.type} · ${m.dur}${m.module?' · '+m.module:''}</div>
+        <div class="chip green mark">${IC.heart()} Archie pointed you to this part</div>
+        <div class="para">${m.intro}</div>
+        <div class="hl"><div class="para">${m.hl}</div></div>
+        <div class="para">${m.outro}</div>
+      </div>
+    </div>`;
+  r.classList.add('on');
+  document.getElementById('readerBack').onclick=()=>{ r.classList.remove('on'); };
+}
+
+/* ---------- forward-pointer overlay ---------- */
+function openForward(id){
+  const m=M[id];
+  const f=document.getElementById('forward');
+  f.innerHTML=`${statusbar}
+    <div class="topbar"><div class="back" id="fwdBack">${IC.back()}<div class="dot"></div><div class="n">Back to Archie</div></div><div style="width:22px"></div></div>
+    <div class="scroll"><div class="rbody">
+      <div class="lockprev">
+        <div class="img"><div class="pl">${IC.lock()}</div></div>
+        <div class="glabel"><span class="dot" style="width:7px;height:7px"></span>${m.quest} quest · ${m.chapter||''}</div>
+        <div class="ti">${m.title}</div>
+        <div class="de">${m.desc}</div>
+      </div>
+      <div class="nudge">${IC.clock()}<div class="l">${m.unlock}</div></div>
+      <div class="btn primary" data-go="quest" id="fwdGo">Go to your Nutrition quest ${IC.chev()}</div>
+      <div class="btn ghost" id="fwdRemind">${IC.bell()} Remind me when it opens</div>
+      <div style="font-size:13px;line-height:18px;color:var(--muted);text-align:center;padding:0 8px">If this lesson were also in the Open Library, Archie would link you straight there instead.</div>
+    </div></div>`;
+  f.classList.add('on');
+  document.getElementById('fwdBack').onclick=()=>{ f.classList.remove('on'); };
+  document.getElementById('fwdGo').onclick=()=>toast('→ Quest detail');
+  document.getElementById('fwdRemind').onclick=()=>toast('✓ We’ll let you know');
+}
+
+/* ---------- toast ---------- */
+let toastT;
+function toast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('on');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('on'),1600);
+}
+
+/* ---------- init ---------- */
+renderBase();
+document.getElementById('restart').onclick=()=>{ renderBase(); };
+
+/* ---------- URL-driven state (?state=…) ----------
+   Lets generate_figma_design capture each state as its own page. */
+function renderThinkingDirect(key){
+  const a=A[key]; if(!a) return;
+  prevAnswer=key;
+  showSheet(`
+    <div class="row qrow"><div class="q">${IC.search()}<span>${a.short}</span></div></div>
+    <div class="thinking">
+      <div class="archie"><div class="dot"></div><div class="n">Archie</div><div class="dots"><i></i><i></i><i></i></div></div>
+      <div style="font-size:16px;font-weight:600;color:var(--foreground-surface-primary-subtle)">Looking through your program…</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div class="skel sh" style="width:100%"></div><div class="skel sh" style="width:90%"></div><div class="skel sh" style="width:70%"></div>
+      </div>
+    </div>`);
+}
+function initFromUrl(){
+  const s=new URLSearchParams(window.location.search).get('state');
+  if(!s||s==='discover') return;
+  if(s==='search'){ openSearch(); return; }
+  if(s.startsWith('thinking-')){ renderThinkingDirect(s.replace('thinking-','')); return; }
+  if(s.startsWith('answer-expanded-')){
+    const key=s.replace('answer-expanded-','');
+    prevAnswer=key; renderAnswer(key);
+    requestAnimationFrame(()=>{ const mt=document.getElementById('moreToggle'); if(mt) mt.click(); });
+    return;
+  }
+  if(s.startsWith('answer-')){
+    const key=s.replace('answer-',''); prevAnswer=key; renderAnswer(key); return;
+  }
+}
+initFromUrl();
+</script>
+</body>
+</html>

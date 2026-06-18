@@ -1,0 +1,1523 @@
+/* ============================================================
+   Robin Product (semantic) tokens — Sidekick Health Mobile brand
+   Source: localhost:3000/tokens.json @ sidekick-mobile (baked in
+   2026-06-16 so the deployed prototype is self-contained).
+   Never reference primitives directly — only these semantic vars.
+   ============================================================ */
+:root,
+[data-theme="sidekick-mobile"] {
+  /* Background */
+  --background-surface-primary: #ffffff;
+  --background-surface-secondary: #ffffff;
+  --background-surface-tertiary: #f2f6ff;
+  --background-interactive-primary-default: #0050ff;
+  --background-interactive-primary-hover: #3373ff;
+  --background-interactive-primary-focus: #002066;
+  --background-interactive-primary-press: #003099;
+  --background-interactive-primary-disabled: #ccdcff;
+  --background-interactive-secondary-default: #ffffff00;
+  --background-interactive-secondary-hover: #ccdcff;
+  --background-interactive-tertiary-default: #e5edff;
+  --background-controls-primary: #0050ff;
+  --background-controls-secondary: #e5edff;
+  --background-input-field-unselected: #ffffff;
+  --background-input-field-disabled: #f2f4f6;
+  --background-brand-primary: #f2f6ff;
+  --background-brand-secondary: #e5fff7;
+  --background-brand-tertiary: #ffccf9;
+  --background-status-success-primary: #2ea68a;
+  --background-status-success-secondary: #dff3ee;
+  --background-status-warning-primary: #ffcf20;
+  --background-status-warning-secondary: #fff5d2;
+  --background-status-danger-primary: #cc0030;
+  --background-status-danger-secondary: #ffe6ec;
+  --background-status-informative-primary: #6696ff;
+  --background-status-informative-secondary: #f2f6ff;
+  --background-navigation: #001033;
+
+  /* Foreground */
+  --foreground-surface-primary-subtle: #4c6284;
+  --foreground-surface-primary-strong: #001033;
+  --foreground-surface-secondary-subtle: #7f8fa7;
+  --foreground-surface-secondary-strong: #001033;
+  --foreground-brand-primary-strong: #001033;
+  --foreground-brand-secondary-strong: #009969;
+  --foreground-brand-tertiary-strong: #990086;
+  --foreground-status-success-secondary-subtle: #036a4e;
+  --foreground-status-warning-secondary-strong: #66530d;
+  --foreground-status-danger-secondary-strong: #660018;
+  --foreground-interactive-primary-default: #ffffff;
+  --foreground-interactive-secondary-default: #0050ff;
+  --foreground-interactive-tertiary-default: #002050;
+  --foreground-link-default: #0040cc;
+  --foreground-navigation-selected: #ffffff;
+  --foreground-navigation-default: #b3bccb;
+  --foreground-input-field-placeholder: #4c6284;
+  --foreground-input-field-input: #002050;
+  --foreground-controls-primary: #ffffff;
+  --foreground-controls-secondary: #334d73;
+  --foreground-controls-tertiary: #4c6284;
+
+  /* Border */
+  --border-surface-primary: #d0d0d0;
+  --border-surface-tertiary: #ccdcff;
+  --border-brand-secondary: #ccffef;
+  --border-interactive-primary-default: #0050ff;
+  --border-interactive-secondary-default: #0050ff;
+  --border-interactive-tertiary-default: #ccdcff;
+  --border-input-field-unselected: #b3bccb;
+  --border-input-field-selected: #0050ff;
+
+  /* Others */
+  --others-shadow: #001033;
+  --others-overlay: #00103380;
+
+  /* Extra surface/control tokens used by the ported example home screen */
+  --foreground-surface-tertiary-subtle: #7f8fa7;
+  --background-controls-tertiary: #ffffff;
+
+  /* Typography — Proxima Nova (Robin/Sidekick brand face), self-hosted. */
+  --font-family: var(--font-proxima-nova), "Proxima Nova", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --typography-family-title: var(--font-family);
+  --typography-family-body: var(--font-family);
+  --typography-family-label: var(--font-family);
+
+  /* Corner radius */
+  --corner-radius-xs: 4px;
+  --corner-radius-s: 8px;
+  --corner-radius-m: 12px;
+  --corner-radius-l: 24px;
+  --corner-radius-xl: 40px;
+  --corner-radius-button: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+body {
+  font-family: var(--font-family);
+  background: #e9edf4;
+  color: var(--foreground-surface-primary-strong);
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ============================================================
+   Stage + device frame
+   On desktop: centered iPhone frame. On a real phone: full-bleed.
+   ============================================================ */
+.stage {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px 16px;
+}
+.stage__caption {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--foreground-surface-secondary-subtle);
+  text-align: center;
+  max-width: 390px;
+}
+.stage__caption b {
+  color: var(--foreground-surface-primary-subtle);
+  font-weight: 700;
+}
+
+.device {
+  position: relative;
+  width: 390px;
+  height: min(844px, calc(100dvh - 96px));
+  background: var(--background-surface-primary);
+  border-radius: 44px;
+  overflow: hidden;
+  border: 1px solid var(--border-surface-primary);
+  box-shadow: 0 24px 60px color-mix(in srgb, var(--others-shadow) 16%, transparent);
+  flex: 0 0 auto;
+}
+
+@media (max-width: 480px) {
+  .stage {
+    padding: 0;
+    gap: 0;
+  }
+  .stage__caption {
+    display: none;
+  }
+  .device {
+    width: 100%;
+    /* Follow the visual viewport so the composer stays above the keyboard
+       (ViewportSizer sets --vvh; falls back to 100dvh before JS runs). */
+    height: var(--vvh, 100dvh);
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+}
+
+/* The scrollable screen surface inside the device */
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--background-surface-primary);
+}
+.screen__scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hide horizontal scrollbar on the home widget carousel */
+.home-carousel {
+  scrollbar-width: none;
+}
+.home-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================================
+   Status bar
+   ============================================================ */
+.statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 26px 4px;
+  flex: 0 0 auto;
+  color: var(--foreground-surface-primary-strong);
+}
+.statusbar__time {
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.statusbar__icons {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+/* ============================================================
+   Top app bar (chat / history)
+   ============================================================ */
+.appbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 16px 12px;
+  flex: 0 0 auto;
+}
+.appbar__title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--foreground-surface-primary-strong);
+}
+.iconbtn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  color: var(--foreground-surface-primary-strong);
+}
+.iconbtn:active {
+  background: var(--background-surface-tertiary);
+}
+.appbar__action {
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--foreground-interactive-secondary-default);
+  padding: 8px;
+}
+
+/* ============================================================
+   Chat
+   ============================================================ */
+.chat {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 8px 18px 8px;
+}
+.bubble-user {
+  align-self: flex-end;
+  max-width: 80%;
+  background: var(--background-navigation);
+  color: #ffffff;
+  font-size: 15px;
+  line-height: 21px;
+  padding: 13px 17px;
+  border-radius: 22px 22px 6px 22px;
+}
+.archie-answer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 92%;
+}
+.archie-answer__text {
+  font-size: 15.5px;
+  line-height: 23px;
+  color: var(--foreground-surface-primary-strong);
+}
+.archie-answer__transition {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground-surface-primary-subtle);
+  margin-top: 2px;
+}
+
+/* Thinking / searching pill */
+.thinking-pill {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: linear-gradient(120deg, #c7f9ec, #a0e9ff);
+  border-radius: 999px;
+  padding: 9px 16px 9px 11px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground-surface-primary-strong);
+}
+.thinking-pill__dots {
+  display: inline-flex;
+  gap: 3px;
+}
+.thinking-pill__dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--foreground-brand-secondary-strong);
+  animation: pulse 1s infinite;
+}
+.thinking-pill__dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.thinking-pill__dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.thinking-pill__imgs {
+  display: inline-flex;
+  margin-left: 4px;
+}
+.thinking-pill__imgs span {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  margin-left: -7px;
+  border: 2px solid #d6f7ee;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* Mission / source cards */
+.mcard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: var(--background-surface-tertiary);
+  border: 1px solid var(--border-surface-tertiary);
+  border-radius: 16px;
+  padding: 12px;
+  color: var(--foreground-surface-primary-strong);
+}
+.mcard:active {
+  background: var(--background-interactive-tertiary-default);
+}
+.mcard__thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 11px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.mcard__body {
+  flex: 1;
+  min-width: 0;
+}
+.mcard__title {
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 19px;
+}
+.mcard__meta {
+  font-size: 12.5px;
+  color: var(--foreground-surface-secondary-subtle);
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.mcard__provenance {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--foreground-link-default);
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.mcard__chev {
+  color: var(--border-input-field-unselected);
+  flex: 0 0 auto;
+}
+
+/* Disclaimer */
+.disclaimer {
+  font-size: 12px;
+  color: var(--foreground-surface-secondary-subtle);
+  padding: 2px 0 0;
+}
+
+/* Out-of-scope action rows */
+.action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--border-surface-primary);
+  padding: 15px 2px;
+  color: var(--foreground-surface-primary-strong);
+}
+.action-row__label {
+  font-size: 15.5px;
+  font-weight: 700;
+}
+
+/* ============================================================
+   Composer (sticky input)
+   ============================================================ */
+.composer {
+  flex: 0 0 auto;
+  padding: 10px 16px calc(14px + env(safe-area-inset-bottom));
+  background: var(--background-surface-primary);
+  border-top: 1px solid color-mix(in srgb, var(--border-surface-primary) 50%, transparent);
+}
+.composer__field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--background-surface-tertiary);
+  border-radius: 22px;
+  padding: 8px 8px 8px 18px;
+  min-height: 56px;
+}
+
+/* Floating variant (splash) — transparent bar, white field over the aurora */
+.composer--floating {
+  background: transparent;
+  border-top: none;
+}
+.composer--floating .composer__field {
+  background: var(--background-surface-primary);
+  border: 1px solid color-mix(in srgb, var(--border-brand-secondary) 70%, transparent);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--others-shadow) 9%, transparent);
+}
+.composer__input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--foreground-input-field-input);
+}
+.composer__input::placeholder {
+  color: var(--foreground-input-field-placeholder);
+}
+.composer__mic {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--foreground-surface-primary-subtle);
+}
+.composer__send {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 999px;
+  background: var(--background-interactive-primary-default);
+  color: var(--foreground-interactive-primary-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+.composer__send:disabled {
+  background: var(--background-interactive-primary-disabled);
+}
+.composer__send:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+/* ============================================================
+   iOS-style modal presentation (Home → Archie)
+   ============================================================ */
+.home-base {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 0;
+}
+.home-base.is-ready {
+  transition: transform 0.42s cubic-bezier(0.32, 0.72, 0, 1), filter 0.42s ease;
+}
+.home-base--pushed {
+  transform: scale(0.93) translateY(10px);
+  filter: brightness(0.82);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.modal-sheet {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  transform: translateY(100%);
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+  background: var(--background-surface-tertiary);
+  box-shadow: 0 -12px 44px color-mix(in srgb, var(--others-shadow) 22%, transparent);
+  pointer-events: none;
+}
+.modal-sheet.is-ready {
+  transition: transform 0.44s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.modal-sheet--open {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* History — slides in from the right over the Archie experience */
+.history-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  transform: translateX(100%);
+  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+  background: var(--background-surface-primary);
+}
+.history-overlay--open {
+  transform: translateX(0);
+}
+
+/* ============================================================
+   Splash / starting conversation
+   ============================================================ */
+.splash {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+  background: linear-gradient(180deg, #ffffff 0%, #eef7f4 100%);
+}
+
+/* Animated "aurora" backdrop — drifting blobs in the Archie brand colours.
+   Sits above the base fill, below the content (z-index:-1). */
+.splash__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.splash__bg .blob,
+.discover__bg .blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(42px);
+  will-change: transform;
+}
+.blob--cyan {
+  width: 540px;
+  height: 540px;
+  left: 50%;
+  bottom: -200px;
+  margin-left: -270px;
+  background: radial-gradient(circle, #20dfff 0%, rgba(32, 223, 255, 0) 70%);
+  opacity: 0.95;
+  animation: drift-cyan 17s ease-in-out infinite alternate;
+}
+.blob--green {
+  width: 460px;
+  height: 460px;
+  left: -140px;
+  bottom: -140px;
+  background: radial-gradient(circle, #00ffaf 0%, rgba(0, 255, 175, 0) 70%);
+  opacity: 0.9;
+  animation: drift-green 21s ease-in-out infinite alternate;
+}
+.blob--pink {
+  width: 320px;
+  height: 320px;
+  right: -120px;
+  bottom: 90px;
+  background: radial-gradient(circle, rgba(255, 0, 223, 0.5) 0%, rgba(255, 0, 223, 0) 70%);
+  animation: drift-pink 25s ease-in-out infinite alternate;
+}
+.blob--yellow {
+  width: 260px;
+  height: 260px;
+  right: 10px;
+  bottom: -110px;
+  background: radial-gradient(circle, rgba(255, 207, 32, 0.55) 0%, rgba(255, 207, 32, 0) 70%);
+  animation: drift-yellow 19s ease-in-out infinite alternate;
+}
+@keyframes drift-cyan {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(-34px, -54px) scale(1.16); }
+}
+@keyframes drift-green {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(60px, -36px) scale(1.2); }
+}
+@keyframes drift-pink {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(-50px, 40px) scale(1.25); }
+}
+@keyframes drift-yellow {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(-40px, -30px) scale(1.18); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .splash__bg .blob,
+  .discover__bg .blob {
+    animation: none;
+  }
+}
+.splash__logo {
+  display: block;
+  align-self: center;
+  height: 132px;
+  width: auto;
+  margin-top: 44px;
+  transition: height 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+    margin-top 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.splash__greeting {
+  align-self: center;
+  text-align: center;
+  /* Robin Title/M — Proxima Nova Semibold, 24px / 32px line height */
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: 0;
+  color: var(--foreground-surface-primary-strong);
+  max-width: 280px;
+  margin: 60px 24px 0;
+  transition: margin-top 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+}
+/* Focused (keyboard up): logo halves, greeting + pills condense up */
+.splash--focused .splash__logo {
+  height: 66px;
+  margin-top: 8px;
+}
+.splash--focused .splash__greeting {
+  margin-top: 18px;
+}
+.splash__spacer {
+  flex: 1;
+}
+.splash__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 16px;
+  padding: 0 18px 4px;
+}
+.chip {
+  border: none;
+  background: var(--background-surface-primary);
+  border: 1px solid var(--border-surface-tertiary);
+  border-radius: 999px;
+  padding: 11px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground-surface-primary-strong);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--others-shadow) 5%, transparent);
+}
+.chip:active {
+  background: var(--background-surface-tertiary);
+}
+
+/* ---- Splash suggestion pills (two auto-scrolling rows) ---- */
+.pill-rows {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* 8px between the two rows */
+  /* No overflow clip here: the device/modal frame already clips the marquee
+     horizontally, so the pills' soft drop shadow isn't cut off top/bottom. */
+}
+.pill-row {
+  /* track overflows horizontally and is clipped by the device frame */
+}
+.pill-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.pill-track--right {
+  animation: pill-marquee-right 30s linear infinite;
+}
+.pill-track--left {
+  animation: pill-marquee-left 30s linear infinite;
+}
+/* Pause both rows when the user hovers a pill */
+.pill-row:hover .pill-track {
+  animation-play-state: paused;
+}
+@keyframes pill-marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes pill-marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pill-track {
+    animation: none;
+  }
+}
+
+.pill {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px; /* icon → text */
+  margin-right: 8px; /* 8px between pills (uniform, keeps the loop seamless) */
+  white-space: nowrap;
+  /* Robin Label/S Regular — Proxima Nova Regular 14/20 */
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--foreground-surface-primary-subtle);
+  background: var(--background-surface-secondary);
+  border: 1px solid #ffffff;
+  border-radius: 999px;
+  padding: 4px 12px;
+  /* Figma drop shadow: X 0, Y 4, Blur 48, Spread 0, #001033 @ 10% */
+  box-shadow: 0 4px 48px color-mix(in srgb, var(--others-shadow) 10%, transparent);
+  cursor: pointer;
+}
+.pill__icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  display: block;
+}
+
+/* ============================================================
+   Home (Launch from home)
+   ============================================================ */
+.home {
+  padding: 6px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.home__greeting {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.ask-archie-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  border-radius: 20px;
+  padding: 18px;
+  color: #ffffff;
+  background: linear-gradient(120deg, #0050ff 0%, #6a5cff 50%, #b14bff 100%);
+  box-shadow: 0 8px 22px color-mix(in srgb, #0050ff 28%, transparent);
+}
+.ask-archie-card__title {
+  font-size: 17px;
+  font-weight: 800;
+}
+.ask-archie-card__sub {
+  font-size: 13.5px;
+  opacity: 0.9;
+  margin-top: 2px;
+}
+.home__section-title {
+  font-size: 18px;
+  font-weight: 800;
+}
+.task {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--border-surface-primary) 55%, transparent);
+}
+.task:last-child {
+  border-bottom: none;
+}
+.task__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task__label {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Bottom navigation */
+.bottomnav {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 8px calc(12px + env(safe-area-inset-bottom));
+  background: var(--background-navigation);
+}
+.bottomnav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  color: var(--foreground-navigation-default);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+}
+.bottomnav__item--active {
+  color: var(--foreground-navigation-selected);
+}
+
+/* ============================================================
+   History
+   ============================================================ */
+.history {
+  padding: 8px 18px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.history__group-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--foreground-surface-secondary-subtle);
+  margin: 16px 0 6px;
+}
+.history-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: var(--background-surface-primary);
+  border: 1px solid var(--border-surface-tertiary);
+  border-radius: 16px;
+  padding: 14px 16px;
+  color: var(--foreground-surface-primary-strong);
+}
+.history-card__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.history-card__title {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.history-card__preview {
+  display: block;
+  font-size: 13.5px;
+  color: var(--foreground-surface-primary-subtle);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.history-card__meta {
+  display: block;
+  font-size: 12px;
+  color: var(--foreground-surface-secondary-subtle);
+  margin-top: 4px;
+}
+.history-card__delete {
+  border: none;
+  background: transparent;
+  color: var(--background-status-danger-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 6px;
+}
+.history-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+  padding: 40px 36px;
+}
+.history-empty__title {
+  font-size: 19px;
+  font-weight: 800;
+}
+.history-empty__sub {
+  font-size: 14.5px;
+  line-height: 21px;
+  color: var(--foreground-surface-primary-subtle);
+  max-width: 260px;
+}
+
+/* Cross-fade for view transitions */
+.fade-enter {
+  animation: fadein 0.28s ease both;
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   Discover screen
+   ============================================================ */
+.discover {
+  isolation: isolate;
+  background: linear-gradient(180deg, #ffffff 0%, #effaf6 100%);
+}
+/* Animated aurora behind the top segment (same as the Archie chat screen) */
+.discover__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 440px;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.discover__title {
+  /* Robin Headline/M — Proxima Nova Bold 30/40 */
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+  color: var(--foreground-surface-primary-strong);
+  padding: 8px 20px 14px;
+  max-height: 80px;
+  overflow: hidden;
+  transition: max-height 0.28s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.18s ease,
+    padding 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+/* Collapse the title up when the search field is focused */
+.discover--search .discover__title {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Content swap: default content fades out (and leaves the flow) as search opens */
+.discover__stack {
+  position: relative;
+}
+.discover__default {
+  transition: opacity 0.18s ease;
+}
+.discover--search .discover__default {
+  position: absolute;
+  inset: 0 0 auto 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Search bar row + gradient-stroke search bar (cyan → magenta) */
+.dsearch-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px;
+  transition: padding 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.discover--search .dsearch-row {
+  padding: 4px 16px 0;
+}
+.discover--search .discover__bg {
+  display: none;
+}
+.discover--search {
+  background: linear-gradient(180deg, #f2f6ff 0%, #ffffff 100%);
+}
+.search-bar {
+  flex: 1;
+  min-width: 0;
+  padding: 1.5px; /* gradient border thickness */
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #20dfff 0%, #ff00df 100%);
+  cursor: text;
+}
+.search-bar__inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--background-surface-primary);
+}
+.search-bar__icon {
+  flex: 0 0 auto;
+}
+.search-bar__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--foreground-input-field-input);
+}
+.search-bar__input::placeholder {
+  color: var(--foreground-input-field-placeholder);
+}
+.dsearch-cancel {
+  flex: 0 0 auto;
+  border: none;
+  background: none;
+  font-size: 14px;
+  color: var(--foreground-interactive-secondary-default);
+  cursor: pointer;
+}
+
+/* Search-active body — recent searches + Ask Archie pills */
+.dsearch-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+.dsearch-heading {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  color: var(--foreground-surface-primary-strong);
+}
+.dsearch-recent {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.dsearch-recent::-webkit-scrollbar {
+  display: none;
+}
+.recent-pill {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  padding: 4px 12px;
+  border: none;
+  border-radius: 24px;
+  background: var(--background-interactive-tertiary-default);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--foreground-surface-primary-strong);
+  cursor: pointer;
+}
+.dsearch-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ask-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border: 1px solid var(--border-surface-tertiary);
+  border-radius: 24px;
+  background: #f9fbff;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--foreground-surface-primary-strong);
+  cursor: pointer;
+}
+.ask-pill img {
+  flex: 0 0 auto;
+}
+
+/* White content sheet */
+.discover__sheet {
+  margin-top: 16px;
+  padding: 24px 0 8px;
+  background: var(--background-surface-primary);
+  border-radius: 24px 24px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Favourites / History */
+.fav-row {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px;
+}
+.fav-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 14px 16px;
+  border: none;
+  border-radius: 14px;
+  background: var(--background-surface-tertiary);
+  cursor: pointer;
+}
+.fav-card span {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--foreground-surface-primary-strong);
+}
+
+/* Section headers */
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+.section-title {
+  /* Robin Title/S — Proxima Nova Semibold 20/28 */
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  color: var(--foreground-surface-primary-strong);
+}
+.section-sub {
+  /* Robin Body/S Regular — Proxima Nova 14/20, 8px below the header */
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--foreground-surface-primary-subtle);
+  padding: 8px 20px 0;
+}
+.section-link {
+  border: none;
+  background: none;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--foreground-link-default);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Horizontal scroller */
+.hscroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 12px 20px 4px;
+  scrollbar-width: none;
+}
+.hscroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Suggested-for-you cards */
+.sug-card {
+  flex: 0 0 auto;
+  width: 156px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+.sug-card__img {
+  display: block;
+  width: 156px;
+  height: 156px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--background-interactive-tertiary-default);
+}
+.sug-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sug-card__title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--foreground-surface-primary-strong);
+  margin-top: 8px;
+}
+.sug-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--foreground-surface-primary-subtle);
+  margin-top: 4px;
+}
+.sug-card__divider {
+  width: 1px;
+  height: 14px;
+  background: var(--border-surface-tertiary);
+  margin: 0 3px;
+}
+
+/* Quest cards */
+.quest-card {
+  flex: 0 0 auto;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  border: 1px solid var(--border-surface-tertiary);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--background-surface-primary);
+  padding: 0;
+  cursor: pointer;
+}
+.quest-card__illu {
+  position: relative;
+  height: 135px;
+  background: #eef1fb;
+  overflow: hidden;
+}
+.quest-card__illu img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.quest-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--background-status-success-primary);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 8px;
+}
+.quest-card__foot {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  background: var(--background-surface-primary);
+}
+.quest-card__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--foreground-surface-primary-strong);
+}
+.quest-card__meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--foreground-surface-primary-subtle);
+}
+.quest-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--background-controls-secondary);
+  overflow: hidden;
+}
+.quest-progress__fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--background-interactive-primary-default);
+}
+
+/* Library & Tools grid */
+.lib-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 16px 20px 0; /* 16px below the section description */
+}
+.lib-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 190px;
+  padding: 16px;
+  border: 1px solid var(--border-surface-tertiary);
+  border-radius: 16px;
+  background: #eef1fb;
+  overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+}
+.lib-card__title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  /* Robin Title/XS — Proxima Nova Semibold 16/24 */
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  color: var(--foreground-surface-primary-strong);
+}
+.lib-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Fill the card height; crop the sides (per Figma) */
+  object-fit: cover;
+  object-position: center bottom;
+}
+
+/* ============================================================
+   Discover search results
+   ============================================================ */
+.search-results {
+  background: linear-gradient(180deg, #f2f6ff 0%, #ffffff 100%);
+}
+.sr-title {
+  flex: 1;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--foreground-surface-primary-strong);
+}
+.sr-sheet {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--background-surface-primary);
+  border-radius: 24px 24px 0 0;
+}
+.sr-content {
+  padding: 24px 24px 130px;
+}
+.sr-query {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 32px;
+}
+.sr-query span {
+  max-width: 92%;
+  background: var(--background-navigation);
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 16px 20px;
+  border-radius: 32px 32px 4px 32px;
+}
+.sr-answer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+.sr-answer__text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--foreground-surface-primary-strong);
+}
+.sr-answer__disclaimer {
+  margin: 0;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--foreground-surface-primary-subtle);
+}
+.sr-divider {
+  width: 100%;
+  height: 1px;
+  background: #e6e9f1;
+}
+.sr-filters {
+  display: flex;
+  gap: 4px;
+}
+.sr-filter {
+  padding: 2px 12px;
+  border: none;
+  border-radius: 40px;
+  background: var(--background-surface-tertiary);
+  color: var(--foreground-surface-primary-subtle);
+  font-size: 12px;
+  line-height: 20px;
+  cursor: pointer;
+}
+.sr-filter--active {
+  background: var(--background-navigation);
+  color: #ffffff;
+}
+.sr-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  border: 1px solid var(--border-surface-tertiary);
+  border-radius: 12px;
+  background: var(--background-surface-tertiary);
+  cursor: pointer;
+}
+.sr-card__thumb {
+  flex: 0 0 auto;
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+}
+.sr-card__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.sr-card__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+.sr-card__title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  color: var(--foreground-surface-primary-strong);
+}
+.sr-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--foreground-surface-primary-subtle);
+}
+.sr-card__tag {
+  background: #dff3ee;
+  color: #036a4e;
+  font-size: 10px;
+  line-height: 1.5;
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+.sr-composer {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 24px;
+  padding: 14px 16px;
+  background: #f9fbff;
+  border: 1px solid #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 4px 48px color-mix(in srgb, var(--others-shadow) 10%, transparent);
+  cursor: text;
+}
+.sr-composer__field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sr-composer__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--foreground-input-field-input);
+}
+.sr-composer__input::placeholder {
+  color: var(--foreground-input-field-placeholder);
+}
