@@ -255,7 +255,7 @@ export default function DiscoverScreen() {
         </div>
       </div>
 
-      <BottomNav active="discover" />
+      {!searchActive && <BottomNav active="discover" />}
     </div>
   );
 }

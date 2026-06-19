@@ -151,11 +151,23 @@ button {
 }
 
 @media (max-width: 480px) {
+  /* Lock the page so iOS can't scroll the document up when the keyboard opens
+     — the device tracks the visual viewport itself instead. */
+  html,
+  body {
+    overflow: hidden;
+    height: 100%;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+  }
   .stage {
     padding: 0;
     gap: 0;
     /* Pin the device to the top of the visible area — never centre it, or the
        keyboard-shrunk device floats in the middle and opens a gap. */
+    position: fixed;
+    inset: 0;
     justify-content: flex-start;
     height: 100dvh;
     overflow: hidden;
