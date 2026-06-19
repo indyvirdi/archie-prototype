@@ -168,16 +168,16 @@ export default function ArchieExperience({ onClose }: { onClose: () => void }) {
             </button>
           </div>
 
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="splash__logo" src="/assets/archie-logo.svg" alt="Archie" />
-          <h1 className="splash__greeting">Hi Beverly, how&apos;s it going?</h1>
+          <div className="splash__body">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="splash__logo" src="/assets/archie-logo.svg" alt="Archie" />
+            <h1 className="splash__greeting">Hi Beverly, how&apos;s it going?</h1>
 
-          <div className="pill-rows">
-            <PillRow pills={SPLASH_ROW_1} direction="right" onPick={startConversation} />
-            <PillRow pills={SPLASH_ROW_2} direction="left" onPick={startConversation} />
+            <div className="pill-rows">
+              <PillRow pills={SPLASH_ROW_1} direction="right" onPick={startConversation} />
+              <PillRow pills={SPLASH_ROW_2} direction="left" onPick={startConversation} />
+            </div>
           </div>
-
-          <div className="splash__spacer" />
 
           <Composer
             draft={draft}

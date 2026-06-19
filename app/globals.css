@@ -164,12 +164,17 @@ button {
   .stage {
     padding: 0;
     gap: 0;
-    /* Pin the device to the top of the visible area — never centre it, or the
-       keyboard-shrunk device floats in the middle and opens a gap. */
+    /* Follow the visual viewport exactly: its height shrinks above the keyboard
+       and it pans (offsetTop) — we mirror both so the device tracks the visible
+       window instead of being scrolled off the top. */
     position: fixed;
-    inset: 0;
+    left: 0;
+    right: 0;
+    top: 0;
     justify-content: flex-start;
-    height: 100dvh;
+    height: var(--vvh, 100dvh);
+    min-height: 0; /* override the base min-height:100dvh so --vvh can shrink */
+    transform: translateY(var(--vv-top, 0px));
     overflow: hidden;
   }
   .stage__caption {
@@ -177,9 +182,7 @@ button {
   }
   .device {
     width: 100%;
-    /* Follow the visual viewport so content fills the area above the keyboard
-       (ViewportSizer sets --vvh; falls back to 100dvh before JS runs). */
-    height: var(--vvh, 100dvh);
+    height: 100%; /* fill the stage, which already tracks the visual viewport */
     border-radius: 0;
     border: none;
     box-shadow: none;
@@ -813,6 +816,17 @@ button {
 }
 .splash--focused .splash__greeting {
   margin-top: 18px;
+}
+/* Holds logo + greeting + pills; takes the space above the composer and
+   shrinks (rather than pushing the composer off-screen) when the keyboard
+   leaves little room. The composer stays pinned just above the keyboard. */
+.splash__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
 }
 .splash__spacer {
   flex: 1;
