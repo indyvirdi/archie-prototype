@@ -46,6 +46,7 @@ export default function ArchieExperience({ onClose }: { onClose: () => void }) {
   const [draft, setDraft] = useState("");
   const [toast, setToast] = useState<string | null>(null);
   const [composerFocused, setComposerFocused] = useState(false);
+  const [openSources, setOpenSources] = useState<Source[] | null>(null);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -209,7 +210,7 @@ export default function ArchieExperience({ onClose }: { onClose: () => void }) {
           <div className="screen__scroll" ref={scrollRef}>
             <div className="chat">
               {msgs.map((m, i) => (
-                <MessageView key={i} msg={m} onOpenMission={openMission} onAction={handleAction} />
+                <MessageView key={i} msg={m} onOpenMission={openMission} onAction={handleAction} onOpenSources={setOpenSources} />
               ))}
             </div>
           </div>
@@ -241,6 +242,10 @@ export default function ArchieExperience({ onClose }: { onClose: () => void }) {
       />
 
       {toast && <div className="archie-toast">{toast}</div>}
+
+      {openSources && (
+        <SourcesSheet sources={openSources} onClose={() => setOpenSources(null)} />
+      )}
 
       <style>{`
         .archie-toast{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);
@@ -344,13 +349,13 @@ function MessageView({
   msg,
   onOpenMission,
   onAction,
+  onOpenSources,
 }: {
   msg: Msg;
   onOpenMission: (m: Mission) => void;
   onAction: (label: string) => void;
+  onOpenSources: (sources: Source[]) => void;
 }) {
-  const [sourcesOpen, setSourcesOpen] = useState(false);
-
   if (msg.role === "user") {
     return <div className="bubble-user fade-enter">{msg.text}</div>;
   }
@@ -399,11 +404,7 @@ function MessageView({
       <div className="disclaimer">{DISCLAIMER}</div>
 
       {r.sources && r.sources.length > 0 && (
-        <SourcesRow sources={r.sources} onOpen={() => setSourcesOpen(true)} />
-      )}
-
-      {sourcesOpen && r.sources && (
-        <SourcesSheet sources={r.sources} onClose={() => setSourcesOpen(false)} />
+        <SourcesRow sources={r.sources} onOpen={() => onOpenSources(r.sources!)} />
       )}
     </div>
   );
