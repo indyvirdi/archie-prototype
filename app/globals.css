@@ -154,13 +154,18 @@ button {
   .stage {
     padding: 0;
     gap: 0;
+    /* Pin the device to the top of the visible area — never centre it, or the
+       keyboard-shrunk device floats in the middle and opens a gap. */
+    justify-content: flex-start;
+    height: 100dvh;
+    overflow: hidden;
   }
   .stage__caption {
     display: none;
   }
   .device {
     width: 100%;
-    /* Follow the visual viewport so the composer stays above the keyboard
+    /* Follow the visual viewport so content fills the area above the keyboard
        (ViewportSizer sets --vvh; falls back to 100dvh before JS runs). */
     height: var(--vvh, 100dvh);
     border-radius: 0;
