@@ -86,12 +86,37 @@ export const MISSIONS: Record<string, MissionCard> = {
   },
 };
 
+export interface Source {
+  label: string;
+  thumb: string; // path to thumb SVG
+  circle: string; // path to circle SVG (used in stacked row)
+}
+
+export const SOURCES: Record<string, Source> = {
+  nutrition: {
+    label: "Nutrition Quest",
+    thumb: "/assets/Nutrition Thumb.svg",
+    circle: "/assets/Nutrition circle.svg",
+  },
+  t2d: {
+    label: "Type 2 Diabetes Quest",
+    thumb: "/assets/T2D Thumb.svg",
+    circle: "/assets/T2D circle.svg",
+  },
+  habitFormation: {
+    label: "Habit formation (Open Library)",
+    thumb: "/assets/Habit Formation Thumb.svg",
+    circle: "/assets/Habit formation circle.svg",
+  },
+};
+
 export interface ArchieReply {
   kind: "answer" | "refusal";
   text: string[]; // paragraphs
   transition?: string; // bridge to the cards
   cards?: string[]; // mission ids
   actions?: string[]; // refusal redirect options
+  sources?: Source[];
 }
 
 export interface Turn {
@@ -121,6 +146,7 @@ export const CONVERSATIONS: Record<string, Conversation> = {
           ],
           transition: "I found these in your program:",
           cards: ["post-meal-movement", "why-blood-sugar", "plate-ordering"],
+          sources: [SOURCES.nutrition, SOURCES.t2d, SOURCES.habitFormation],
         },
       },
       {
@@ -132,6 +158,7 @@ export const CONVERSATIONS: Record<string, Conversation> = {
           ],
           transition: "Here's where to go next:",
           cards: ["post-meal-movement"],
+          sources: [SOURCES.t2d],
         },
       },
     ],
@@ -151,6 +178,7 @@ export const CONVERSATIONS: Record<string, Conversation> = {
           ],
           transition: "Here's where to go next:",
           cards: ["gentle-mobility", "why-movement"],
+          sources: [SOURCES.t2d, SOURCES.habitFormation],
         },
       },
     ],
@@ -169,6 +197,7 @@ export const CONVERSATIONS: Record<string, Conversation> = {
           ],
           transition: "Your program has something on this:",
           cards: ["breathing-reset"],
+          sources: [SOURCES.habitFormation, SOURCES.nutrition],
         },
       },
     ],

@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import StatusBar from "@/components/StatusBar";
 import ArchieMark from "@/components/ArchieMark";
 import MissionCard from "@/components/MissionCard";
+import { SourcesRow, SourcesSheet } from "@/components/SourcesSheet";
 import {
   BackIcon,
   HistoryIcon,
@@ -24,6 +25,7 @@ import {
   type MissionCard as Mission,
   type HistoryEntry,
   type SplashPill,
+  type Source,
 } from "@/lib/conversations";
 
 type Msg =
@@ -347,6 +349,8 @@ function MessageView({
   onOpenMission: (m: Mission) => void;
   onAction: (label: string) => void;
 }) {
+  const [sourcesOpen, setSourcesOpen] = useState(false);
+
   if (msg.role === "user") {
     return <div className="bubble-user fade-enter">{msg.text}</div>;
   }
@@ -393,6 +397,14 @@ function MessageView({
         ))}
 
       <div className="disclaimer">{DISCLAIMER}</div>
+
+      {r.sources && r.sources.length > 0 && (
+        <SourcesRow sources={r.sources} onOpen={() => setSourcesOpen(true)} />
+      )}
+
+      {sourcesOpen && r.sources && (
+        <SourcesSheet sources={r.sources} onClose={() => setSourcesOpen(false)} />
+      )}
     </div>
   );
 }
