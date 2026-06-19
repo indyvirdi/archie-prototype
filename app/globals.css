@@ -194,6 +194,11 @@ button {
 /* ============================================================
    Status bar
    ============================================================ */
+/* Real status bar comes from the phone; we only reserve the safe area. */
+.statusbar-spacer {
+  flex: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+}
 .statusbar {
   display: flex;
   align-items: center;

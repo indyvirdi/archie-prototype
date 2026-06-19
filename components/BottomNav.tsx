@@ -53,7 +53,7 @@ function Item({ icon, label, active, href }: { icon: string; label: string; acti
 
 export default function BottomNav({ active }: { active: "home" | "discover" }) {
   return (
-    <div style={{ position: "absolute", left: 8, right: 8, bottom: 12, zIndex: 100 }}>
+    <div style={{ position: "absolute", left: 8, right: 8, bottom: 16, zIndex: 100 }}>
       <div
         style={{
           position: "relative",
