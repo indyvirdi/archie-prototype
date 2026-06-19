@@ -146,8 +146,6 @@ export default function ArchieExperience({ onClose }: { onClose: () => void }) {
     setTurnIndex(0);
   }, []);
 
-  const nextSuggestion = convId ? CONVERSATIONS[convId]?.turns[turnIndex]?.user : undefined;
-
   return (
     <>
       {!started ? (
@@ -214,14 +212,6 @@ export default function ArchieExperience({ onClose }: { onClose: () => void }) {
               ))}
             </div>
           </div>
-
-          {nextSuggestion && !busy && (
-            <div className="splash__chips" style={{ padding: "0 16px 8px", justifyContent: "flex-start" }}>
-              <button className="chip" onClick={() => runTurn(nextSuggestion, convId!, turnIndex)}>
-                {nextSuggestion}
-              </button>
-            </div>
-          )}
 
           <Composer
             draft={draft}
