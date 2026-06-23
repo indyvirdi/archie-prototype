@@ -150,7 +150,7 @@ export default function DiscoverScreen() {
               <p className="dsearch-heading">Ask Archie our AI coach</p>
               <div className="dsearch-pills">
                 {ASK_ARCHIE.map((p) => (
-                  <button key={p.label} className="ask-pill" onClick={goChat}>
+                  <button key={p.label} className="ask-pill" onClick={() => goSearch(p.label)}>
                     <img src={p.icon} alt="" width={16} height={16} />
                     {p.label}
                   </button>
